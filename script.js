@@ -14,7 +14,7 @@ fetch("guests.csv")
     });
   });
 
-document.getElementById("searchForm").addEventListener("submit", function (e) {
+document.getElementById("searchForm").addEventListener("submit", e => {
   e.preventDefault();
 
   const first = document.getElementById("firstName").value.toLowerCase().trim();
@@ -73,7 +73,7 @@ function addSparkles() {
   const container = document.querySelector(".sparkles");
   container.innerHTML = "";
 
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 18; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = Math.random() * 100 + "%";
