@@ -5,40 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find Your Table</title>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
+  <div class="page-florals"></div>
 
-  <div class="page-frame">
-    <div class="container">
+  <div class="container">
+    <h1 class="title">Welcome</h1>
 
-      <h1 class="title">Welcome</h1>
+    <form id="searchForm">
+      <input type="text" id="firstName" placeholder="First Name" required />
+      <input type="text" id="lastName" placeholder="Last Name (optional)" />
+      <button type="submit">Find My Table</button>
+    </form>
 
-      <form id="searchForm">
-        <input type="text" id="firstName" placeholder="First Name" required />
-        <input type="text" id="lastName" placeholder="Last Name (optional)" />
-        <button type="submit">Find My Table</button>
-      </form>
+    <div id="matches" class="hidden"></div>
 
-      <div id="loading" class="hidden">Finding your seat…</div>
-      <div id="matches" class="hidden"></div>
+    <div id="result" class="result hidden">
+      <h2 id="guestName"></h2>
 
-      <div id="result" class="result hidden">
-        <h2 id="guestName"></h2>
-
-        <div id="tableNumber">
-          <span class="number"></span>
-          <div class="sparkles"></div>
-        </div>
-
-        <p class="message">We are so glad you are here!</p>
-
-        <button class="secondary" onclick="resetSearch()">Search Another Guest</button>
+      <div id="tableNumber">
+        <span class="number"></span>
+        <div class="sparkles"></div>
       </div>
 
+      <p class="message">We are so glad you are here!</p>
+
+      <button class="secondary" onclick="resetSearch()">Search Another Guest</button>
     </div>
   </div>
 
