@@ -5,22 +5,32 @@ const tableNumberEl = document.getElementById("tableNumber");
 const resetBtn = document.getElementById("resetBtn");
 const welcomeTitle = document.getElementById("welcomeTitle");
 
-/* TEMP SAMPLE DATA */
-const guests = [
-  { first: "Jenna", last: "Royce", table: "7" },
-  { first: "Michael", last: "Smith", table: "12" },
-  { first: "Emily", last: "Johnson", table: "4" }
-];
+let guests = [];
 
-form.addEventListener("submit", (e) => {
+/* Load CSV */
+fetch("guests.csv")
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split("\n").slice(1);
+    guests = rows.map(row => {
+      const [first, last, table] = row.split(",");
+      return {
+        first: first.trim().toLowerCase(),
+        last: last.trim().toLowerCase(),
+        table: table.trim()
+      };
+    });
+  });
+
+form.addEventListener("submit", e => {
   e.preventDefault();
 
-  const firstInput = document.getElementById("firstName").value.trim().toLowerCase();
-  const lastInput = document.getElementById("lastName").value.trim().toLowerCase();
+  const firstInput = firstName.value.trim().toLowerCase();
+  const lastInput = lastName.value.trim().toLowerCase();
 
   const match = guests.find(g =>
-    g.first.toLowerCase().includes(firstInput) &&
-    (!lastInput || g.last.toLowerCase().includes(lastInput))
+    g.first.includes(firstInput) &&
+    (!lastInput || g.last.includes(lastInput))
   );
 
   if (!match) {
@@ -28,7 +38,10 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  guestNameEl.textContent = `${match.first} ${match.last}`;
+  guestNameEl.textContent =
+    `${match.first.charAt(0).toUpperCase()}${match.first.slice(1)} ` +
+    `${match.last.charAt(0).toUpperCase()}${match.last.slice(1)}`;
+
   tableNumberEl.textContent = match.table;
 
   welcomeTitle.classList.add("hidden");
@@ -42,3 +55,4 @@ resetBtn.addEventListener("click", () => {
   welcomeTitle.classList.remove("hidden");
   form.reset();
 });
+
