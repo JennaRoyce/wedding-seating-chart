@@ -10,13 +10,14 @@
 </head>
 
 <body>
-  <!-- Floral Corners -->
-  <img src="assets/floral-corner.png" class="floral top-left">
-  <img src="assets/floral-corner.png" class="floral top-right">
-  <img src="assets/floral-corner.png" class="floral bottom-left">
-  <img src="assets/floral-corner.png" class="floral bottom-right">
-
   <div class="container">
+
+    <!-- Floral Corners -->
+    <img src="assets/floral-corner.png" class="floral tl">
+    <img src="assets/floral-corner.png" class="floral tr">
+    <img src="assets/floral-corner.png" class="floral bl">
+    <img src="assets/floral-corner.png" class="floral br">
+
     <h1 class="title">Welcome</h1>
 
     <form id="searchForm">
@@ -27,7 +28,6 @@
 
     <div id="matches" class="hidden"></div>
 
-    <!-- RESULT -->
     <div id="result" class="result hidden">
       <h2 id="guestName"></h2>
 
@@ -38,8 +38,9 @@
 
       <p class="message hidden">We are so glad you are here!</p>
 
-      <button class="secondary" onclick="resetSearch()">Search Another Guest</button>
+      <button class="secondary" id="resetBtn">Search Another Guest</button>
     </div>
+
   </div>
 
   <script src="script.js"></script>
