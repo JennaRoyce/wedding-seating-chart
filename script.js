@@ -4,36 +4,65 @@ fetch("guests.csv")
   .then(response => response.text())
   .then(text => {
     const rows = text.split("\n").slice(1);
-    guests = rows.map(row => {
-      const [first, last, table] = row.split(",");
-      return {
-        first: first?.trim().toLowerCase(),
-        last: last?.trim().toLowerCase(),
-        table: table?.trim()
-      };
-    });
+
+    guests = rows
+      .map(row => {
+        const [first, last, table] = row.split(",");
+        if (!first || !last || !table) return null;
+
+        return {
+          first: first.trim().toLowerCase(),
+          last: last.trim().toLowerCase(),
+          table: table.trim()
+        };
+      })
+      .filter(Boolean);
   });
 
-document.getElementById("searchForm").addEventListener("submit", function(e) {
+document.getElementById("searchForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const firstName = document.getElementById("firstName").value.toLowerCase().trim();
-  const lastName = document.getElementById("lastName").value.toLowerCase().trim();
+  const inputFirst = document
+    .getElementById("firstName")
+    .value.trim()
+    .toLowerCase();
 
-  const guest = guests.find(g =>
-    g.first === firstName && g.last === lastName
+  const inputLast = document
+    .getElementById("lastName")
+    .value.trim()
+    .toLowerCase();
+
+  // PARTIAL MATCH LOGIC
+  const matches = guests.filter(g =>
+    g.first.includes(inputFirst) &&
+    g.last.includes(inputLast)
   );
 
-  const result = document.getElementById("result");
-
-  if (guest) {
-    document.getElementById("guestName").textContent =
-      firstName.charAt(0).toUpperCase() + firstName.slice(1) + " " +
-      lastName.charAt(0).toUpperCase() + lastName.slice(1);
-
-    document.getElementById("tableNumber").textContent = guest.table;
-    result.classList.remove("hidden");
+  if (matches.length === 1) {
+    showResult(matches[0]);
+  } else if (matches.length > 1) {
+    alert(
+      "Multiple guests found. Please type your full first and last name 💙"
+    );
   } else {
-    alert("We couldn't find your name. Please see our coordinator 💙");
+    alert(
+      "We couldn't find your name. Please see our coordinator 💙"
+    );
   }
 });
+
+function showResult(guest) {
+  const result = document.getElementById("result");
+
+  const formattedName =
+    guest.first.charAt(0).toUpperCase() +
+    guest.first.slice(1) +
+    " " +
+    guest.last.charAt(0).toUpperCase() +
+    guest.last.slice(1);
+
+  document.getElementById("guestName").textContent = formattedName;
+  document.getElementById("tableNumber").textContent = guest.table;
+
+  result.classList.remove("hidden");
+}
