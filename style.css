@@ -5,32 +5,41 @@
 
 body {
   margin: 0;
+}
+
+/* Page background */
+.page {
   min-height: 100vh;
   background-color: #bfcfe0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 3rem;
+  align-items: center;
+  padding: 2.5rem;
 }
 
-/* THE CARD + FLORAL BORDER (ONE ELEMENT) */
-.card {
+/* Floral FRAME (OUTSIDE the box) */
+.frame {
   width: 100%;
-  max-width: 520px;
+  max-width: 560px;
 
-  background:
-    url("./assets/floral-border.png") no-repeat center / contain,
-    #c9d6e3;
+  background: url("./assets/floral-border.png") no-repeat center;
+  background-size: contain;
 
-  padding: 5rem 3rem 4rem;
-  border-radius: 22px;
+  padding: 3.5rem;
+}
+
+/* White content box */
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 3rem 2.5rem 3.5rem;
   text-align: center;
 }
 
 /* Welcome */
 .welcome {
   color: #c8a349;
-  font-size: 3rem;
+  font-size: 3.2rem;
   margin-bottom: 2rem;
 }
 
@@ -41,7 +50,7 @@ input {
   margin-bottom: 14px;
   font-size: 1rem;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #ddd;
 }
 
 /* Buttons */
@@ -57,7 +66,7 @@ button {
 }
 
 button.secondary {
-  margin-top: 1.4rem;
+  margin-top: 1.3rem;
   background-color: #c8a349;
   color: #243a5e;
 }
@@ -69,36 +78,36 @@ button.secondary {
 
 #guestName {
   color: #243a5e;
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
+  font-size: 2.3rem;
+  margin-bottom: 0.8rem;
 }
 
-/* Table Number */
+/* Table number */
 .table-wrapper {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 #tableNumber {
-  font-size: 6rem;
+  font-size: 6.2rem;
   color: #c8a349;
   font-weight: 600;
 }
 
-/* Sparkles around number */
+/* Sparkle particles */
 .sparkles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle, rgba(200,163,73,0.9) 1px, transparent 2px);
-  background-size: 18px 18px;
-  animation: sparkle 2.5s linear infinite;
+    radial-gradient(circle, rgba(200,163,73,0.85) 1px, transparent 2px);
+  background-size: 20px 20px;
+  animation: sparkle 3s linear infinite;
 }
 
 @keyframes sparkle {
   from { background-position: 0 0; }
-  to { background-position: 40px 40px; }
+  to { background-position: 50px 50px; }
 }
 
 /* Message */
@@ -114,12 +123,16 @@ button.secondary {
 }
 
 /* Mobile */
-@media (max-width: 500px) {
+@media (max-width: 520px) {
+  .frame {
+    padding: 2.5rem;
+  }
+
   .card {
-    padding: 4rem 2rem 3rem;
+    padding: 2.5rem 2rem 3rem;
   }
 
   #tableNumber {
-    font-size: 5rem;
+    font-size: 5.4rem;
   }
 }
