@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Find Your Table</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -17,21 +17,15 @@
       <h1 class="welcome" id="welcomeTitle">Welcome</h1>
 
       <form id="searchForm">
-        <input type="text" id="firstName" placeholder="First Name" required />
-        <input type="text" id="lastName" placeholder="Last Name (optional)" />
+        <input id="firstName" placeholder="First Name" required>
+        <input id="lastName" placeholder="Last Name (optional)">
         <button type="submit">Find My Table</button>
       </form>
 
       <div id="result" class="hidden">
         <h2 id="guestName"></h2>
-
-        <div class="table-wrapper">
-          <div id="tableNumber"></div>
-          <div class="sparkles"></div>
-        </div>
-
+        <div id="tableNumber"></div>
         <p class="message">We are so glad you are here!</p>
-
         <button class="secondary" id="resetBtn">Search Another Guest</button>
       </div>
 
