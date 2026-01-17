@@ -1,6 +1,6 @@
 let guests = [];
 
-// Nickname dictionary
+// Nickname mapping
 const nicknames = {
   jen: "jennifer",
   jenny: "jennifer",
@@ -12,7 +12,7 @@ const nicknames = {
   katie: "katherine"
 };
 
-// Normalize text safely
+// Normalize input safely
 function normalize(text) {
   return text
     .toLowerCase()
@@ -20,46 +20,47 @@ function normalize(text) {
     .trim();
 }
 
-// Load CSV safely
+// Load CSV
 fetch("guests.csv")
   .then(res => res.text())
   .then(text => {
     text = text.replace(/\uFEFF/g, ""); // remove BOM
     const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
 
-    const headers = lines.shift().split(",");
+    lines.shift(); // remove header row
 
     guests = lines.map(line => {
-      const parts = line.split(",");
+      const [first, last, table] = line.split(",");
       return {
-        first: normalize(parts[0]),
-        last: normalize(parts[1]),
-        table: parts[2]?.trim()
+        first: normalize(first),
+        last: normalize(last),
+        table: table.trim()
       };
     });
   });
 
+// Form submit
 document.getElementById("searchForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   document.getElementById("loading").classList.remove("hidden");
   document.getElementById("matches").classList.add("hidden");
 
-  const rawFirst = normalize(document.getElementById("firstName").value);
-  const rawLast = normalize(document.getElementById("lastName").value);
+  const inputFirst = normalize(document.getElementById("firstName").value);
+  const inputLast = normalize(document.getElementById("lastName").value);
 
   const first =
-    nicknames[rawFirst] ? nicknames[rawFirst] : rawFirst;
+    nicknames[inputFirst] ? nicknames[inputFirst] : inputFirst;
 
-  // FIND MATCHES
   let results = guests.filter(g =>
     g.first.includes(first) &&
-    g.last.includes(rawLast)
+    g.last.includes(inputLast)
   );
 
-  // LAST NAME ONLY FALLBACK
-  if (results.length === 0 && rawLast) {
-    results = guests.filter(g => g.last.includes(rawLast));
+  if (results.length === 0 && inputLast) {
+    results = guests.filter(g =>
+      g.last.includes(inputLast)
+    );
   }
 
   setTimeout(() => {
@@ -70,19 +71,19 @@ document.getElementById("searchForm").addEventListener("submit", function (e) {
     } else if (results.length > 1) {
       showMatches(results);
     } else {
-      alert("We couldn't find your name. Please see our coordinator 💙");
+      alert("We couldn't find your name. Please see our coordinator.");
     }
   }, 600);
 });
 
+// Show multiple matches
 function showMatches(matches) {
   const container = document.getElementById("matches");
-  container.innerHTML = "<p>Please tap your name 💙</p>";
+  container.innerHTML = "<p>Please select your name</p>";
 
   matches.forEach(g => {
     const btn = document.createElement("button");
-    btn.textContent =
-      capitalize(g.first) + " " + capitalize(g.last);
+    btn.textContent = capitalize(g.first) + " " + capitalize(g.last);
     btn.onclick = () => showResult(g);
     container.appendChild(btn);
   });
@@ -90,15 +91,25 @@ function showMatches(matches) {
   container.classList.remove("hidden");
 }
 
+// Show result
 function showResult(guest) {
   document.getElementById("guestName").textContent =
     capitalize(guest.first) + " " + capitalize(guest.last);
 
   document.getElementById("tableNumber").textContent = guest.table;
+
   document.getElementById("result").classList.remove("hidden");
   document.getElementById("matches").classList.add("hidden");
 }
 
+// Reset search
+function resetSearch() {
+  document.getElementById("searchForm").reset();
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("matches").classList.add("hidden");
+}
+
+// Capitalize helper
 function capitalize(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
