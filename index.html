@@ -1,48 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Find Your Table</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"/>
-</head>
 
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
+
+<div class="card-frame">
   <div class="container">
 
-    <!-- Floral Corners -->
-    <img src="assets/floral-border.png" class="floral tl">
-    <img src="assets/floral-border.png" class="floral tr">
-    <img src="assets/floral-border.png" class="floral bl">
-    <img src="assets/floral-border.png" class="floral br">
-
-    <h1 class="title">Welcome</h1>
+    <h1 class="welcome">Welcome</h1>
 
     <form id="searchForm">
-      <input type="text" id="firstName" placeholder="First Name" required />
-      <input type="text" id="lastName" placeholder="Last Name (optional)" />
+      <input type="text" id="firstName" placeholder="First Name" required>
+      <input type="text" id="lastName" placeholder="Last Name (optional)">
       <button type="submit">Find My Table</button>
     </form>
 
-    <div id="matches" class="hidden"></div>
-
-    <div id="result" class="result hidden">
+    <div id="result" class="hidden">
       <h2 id="guestName"></h2>
 
-      <div id="tableNumber" class="hidden">
-        <span class="number"></span>
+      <div class="table-wrapper">
+        <div id="tableNumber"></div>
         <div class="sparkles"></div>
       </div>
 
-      <p class="message hidden">We are so glad you are here!</p>
+      <p class="message">We are so glad you are here!</p>
 
       <button class="secondary" id="resetBtn">Search Another Guest</button>
     </div>
 
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
