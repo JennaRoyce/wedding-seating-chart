@@ -82,3 +82,25 @@ button:hover {
   0% { transform: scale(0.8); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
+
+#loading {
+  margin-top: 15px;
+  font-style: italic;
+  color: #2c3e66;
+}
+
+#matches button {
+  margin-top: 8px;
+  background: #e6ecf5;
+  color: #1f2a44;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#matches button:hover {
+  background: #ccd5e0;
+}
+
