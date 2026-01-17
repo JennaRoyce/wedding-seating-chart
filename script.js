@@ -73,7 +73,7 @@ function addSparkles() {
   const container = document.querySelector(".sparkles");
   container.innerHTML = "";
 
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < 16; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = Math.random() * 100 + "%";
