@@ -35,15 +35,27 @@ document.getElementById("searchForm").addEventListener("submit", e => {
 });
 
 function showResult(guest) {
+  const result = document.getElementById("result");
+  const table = document.getElementById("tableNumber");
+  const message = document.querySelector(".message");
+
   document.getElementById("guestName").textContent =
     capitalize(guest.first) + " " + capitalize(guest.last);
 
   document.querySelector("#tableNumber .number").textContent = guest.table;
 
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("matches").classList.add("hidden");
+  result.classList.remove("hidden");
+  table.classList.add("hidden");
+  message.classList.add("hidden");
 
-  addSparkles();
+  setTimeout(() => {
+    table.classList.remove("hidden");
+    addSparkles();
+  }, 300);
+
+  setTimeout(() => {
+    message.classList.remove("hidden");
+  }, 900);
 }
 
 function showMatches(matches) {
@@ -73,7 +85,7 @@ function addSparkles() {
   const container = document.querySelector(".sparkles");
   container.innerHTML = "";
 
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 14; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = Math.random() * 100 + "%";
