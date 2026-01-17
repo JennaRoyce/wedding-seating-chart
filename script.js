@@ -35,26 +35,22 @@ document.getElementById("searchForm").addEventListener("submit", e => {
 });
 
 function showResult(guest) {
-  const result = document.getElementById("result");
-  const table = document.getElementById("tableNumber");
-  const message = document.querySelector(".message");
+  resetDisplay(false);
 
   document.getElementById("guestName").textContent =
     capitalize(guest.first) + " " + capitalize(guest.last);
 
-  document.querySelector("#tableNumber .number").textContent = guest.table;
-
-  result.classList.remove("hidden");
-  table.classList.add("hidden");
-  message.classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
   setTimeout(() => {
+    const table = document.getElementById("tableNumber");
+    table.querySelector(".number").textContent = guest.table;
     table.classList.remove("hidden");
     addSparkles();
   }, 300);
 
   setTimeout(() => {
-    message.classList.remove("hidden");
+    document.querySelector(".message").classList.remove("hidden");
   }, 900);
 }
 
@@ -72,9 +68,18 @@ function showMatches(matches) {
   container.classList.remove("hidden");
 }
 
-function resetSearch() {
+document.getElementById("resetBtn").addEventListener("click", resetDisplay);
+
+function resetDisplay(showForm = true) {
   document.getElementById("result").classList.add("hidden");
-  document.getElementById("searchForm").reset();
+  document.getElementById("tableNumber").classList.add("hidden");
+  document.querySelector(".message").classList.add("hidden");
+  document.querySelector(".sparkles").innerHTML = "";
+  document.getElementById("matches").classList.add("hidden");
+
+  if (showForm) {
+    document.getElementById("searchForm").reset();
+  }
 }
 
 function capitalize(str) {
@@ -85,7 +90,7 @@ function addSparkles() {
   const container = document.querySelector(".sparkles");
   container.innerHTML = "";
 
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 16; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = Math.random() * 100 + "%";
