@@ -1,68 +1,104 @@
 let guests = [];
 
+// Nickname dictionary
+const nicknames = {
+  jen: "jennifer",
+  jenny: "jennifer",
+  alex: "alexander",
+  mike: "michael",
+  liz: "elizabeth",
+  beth: "elizabeth",
+  kate: "katherine",
+  katie: "katherine"
+};
+
+// Normalize text safely
+function normalize(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z]/g, "")
+    .trim();
+}
+
+// Load CSV safely
 fetch("guests.csv")
-  .then(response => response.text())
+  .then(res => res.text())
   .then(text => {
-    const rows = text.split("\n").slice(1);
+    text = text.replace(/\uFEFF/g, ""); // remove BOM
+    const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
 
-    guests = rows
-      .map(row => {
-        const [first, last, table] = row.split(",");
-        if (!first || !last || !table) return null;
+    const headers = lines.shift().split(",");
 
-        return {
-          first: first.trim().toLowerCase(),
-          last: last.trim().toLowerCase(),
-          table: table.trim()
-        };
-      })
-      .filter(Boolean);
+    guests = lines.map(line => {
+      const parts = line.split(",");
+      return {
+        first: normalize(parts[0]),
+        last: normalize(parts[1]),
+        table: parts[2]?.trim()
+      };
+    });
   });
 
 document.getElementById("searchForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const inputFirst = document
-    .getElementById("firstName")
-    .value.trim()
-    .toLowerCase();
+  document.getElementById("loading").classList.remove("hidden");
+  document.getElementById("matches").classList.add("hidden");
 
-  const inputLast = document
-    .getElementById("lastName")
-    .value.trim()
-    .toLowerCase();
+  const rawFirst = normalize(document.getElementById("firstName").value);
+  const rawLast = normalize(document.getElementById("lastName").value);
 
-  // PARTIAL MATCH LOGIC
-  const matches = guests.filter(g =>
-    g.first.includes(inputFirst) &&
-    g.last.includes(inputLast)
+  const first =
+    nicknames[rawFirst] ? nicknames[rawFirst] : rawFirst;
+
+  // FIND MATCHES
+  let results = guests.filter(g =>
+    g.first.includes(first) &&
+    g.last.includes(rawLast)
   );
 
-  if (matches.length === 1) {
-    showResult(matches[0]);
-  } else if (matches.length > 1) {
-    alert(
-      "Multiple guests found. Please type your full first and last name 💙"
-    );
-  } else {
-    alert(
-      "We couldn't find your name. Please see our coordinator 💙"
-    );
+  // LAST NAME ONLY FALLBACK
+  if (results.length === 0 && rawLast) {
+    results = guests.filter(g => g.last.includes(rawLast));
   }
+
+  setTimeout(() => {
+    document.getElementById("loading").classList.add("hidden");
+
+    if (results.length === 1) {
+      showResult(results[0]);
+    } else if (results.length > 1) {
+      showMatches(results);
+    } else {
+      alert("We couldn't find your name. Please see our coordinator 💙");
+    }
+  }, 600);
 });
 
+function showMatches(matches) {
+  const container = document.getElementById("matches");
+  container.innerHTML = "<p>Please tap your name 💙</p>";
+
+  matches.forEach(g => {
+    const btn = document.createElement("button");
+    btn.textContent =
+      capitalize(g.first) + " " + capitalize(g.last);
+    btn.onclick = () => showResult(g);
+    container.appendChild(btn);
+  });
+
+  container.classList.remove("hidden");
+}
+
 function showResult(guest) {
-  const result = document.getElementById("result");
+  document.getElementById("guestName").textContent =
+    capitalize(guest.first) + " " + capitalize(guest.last);
 
-  const formattedName =
-    guest.first.charAt(0).toUpperCase() +
-    guest.first.slice(1) +
-    " " +
-    guest.last.charAt(0).toUpperCase() +
-    guest.last.slice(1);
-
-  document.getElementById("guestName").textContent = formattedName;
   document.getElementById("tableNumber").textContent = guest.table;
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("matches").classList.add("hidden");
+}
 
-  result.classList.remove("hidden");
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
