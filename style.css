@@ -5,28 +5,25 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
   background-color: #bfcfe0;
   display: flex;
   justify-content: center;
-  min-height: 100vh;
+  align-items: flex-start;
+  padding-top: 3rem;
 }
 
-/* Floral frame */
-.card-frame {
-  background-image: url("./assets/floral-border.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  padding: 50px;
-  max-width: 520px;
+/* THE CARD + FLORAL BORDER (ONE ELEMENT) */
+.card {
   width: 100%;
-}
+  max-width: 520px;
 
-/* Inner card */
-.container {
-  background-color: #c9d6e3;
-  border-radius: 20px;
-  padding: 3rem 2.5rem;
+  background:
+    url("./assets/floral-border.png") no-repeat center / contain,
+    #c9d6e3;
+
+  padding: 5rem 3rem 4rem;
+  border-radius: 22px;
   text-align: center;
 }
 
@@ -34,7 +31,7 @@ body {
 .welcome {
   color: #c8a349;
   font-size: 3rem;
-  margin-bottom: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 /* Inputs */
@@ -60,26 +57,26 @@ button {
 }
 
 button.secondary {
-  margin-top: 1.5rem;
+  margin-top: 1.4rem;
   background-color: #c8a349;
   color: #243a5e;
 }
 
 /* Results */
 #result {
-  margin-top: 2.2rem;
+  margin-top: 2rem;
 }
 
 #guestName {
   color: #243a5e;
   font-size: 2.2rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-/* Table number */
+/* Table Number */
 .table-wrapper {
   position: relative;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 #tableNumber {
@@ -88,13 +85,13 @@ button.secondary {
   font-weight: 600;
 }
 
-/* Sparkles */
+/* Sparkles around number */
 .sparkles {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle, rgba(200,163,73,0.8) 1px, transparent 2px);
+    radial-gradient(circle, rgba(200,163,73,0.9) 1px, transparent 2px);
   background-size: 18px 18px;
   animation: sparkle 2.5s linear infinite;
 }
@@ -108,7 +105,7 @@ button.secondary {
 .message {
   color: #243a5e;
   font-size: 1.6rem;
-  margin-top: 0;
+  margin: 0;
 }
 
 /* Utility */
@@ -118,8 +115,8 @@ button.secondary {
 
 /* Mobile */
 @media (max-width: 500px) {
-  .card-frame {
-    padding: 30px;
+  .card {
+    padding: 4rem 2rem 3rem;
   }
 
   #tableNumber {
