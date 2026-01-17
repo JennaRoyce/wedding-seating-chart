@@ -1,106 +1,128 @@
+:root {
+  --navy: #1f2a44;
+  --dusty-blue: #e6ecf5;
+  --soft-blue: #f4f6fb;
+  --gold: #c9a24d;
+  --champagne: #f7f1e3;
+}
+
 body {
-  font-family: 'Georgia', serif;
-  background: linear-gradient(135deg, #f8f9fc, #e6ecf5);
-  color: #1f2a44;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: var(--navy);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 0;
+  color: var(--navy);
 }
 
 .container {
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  max-width: 400px;
+  background: var(--soft-blue);
+  padding: 45px 35px;
+  border-radius: 22px;
+  max-width: 420px;
   width: 100%;
   text-align: center;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+  animation: fadeIn 1.2s ease;
+}
+
+/* Optional fern frame */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: url("assets/fern-frame.png") no-repeat center/contain;
+  pointer-events: none;
 }
 
 .title {
-  color: #2c3e66;
+  font-family: 'Great Vibes', cursive;
+  font-size: 38px;
+  color: var(--gold);
   margin-bottom: 20px;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 10px;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 12px;
   border: 1px solid #ccd5e0;
+  font-size: 16px;
+  font-family: inherit;
 }
 
 button {
-  background: #2c3e66;
+  background: var(--navy);
   color: white;
   border: none;
-  padding: 14px;
+  padding: 15px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
 }
 
 button:hover {
-  background: #1f2a44;
+  background: #162036;
+}
+
+#loading {
+  margin-top: 18px;
+  font-style: italic;
+  color: var(--gold);
 }
 
 .result {
-  margin-top: 30px;
-  animation: pop 0.6s ease;
+  margin-top: 35px;
+  animation: reveal 0.8s ease;
+}
+
+#guestName {
+  font-size: 26px;
+  color: var(--navy);
 }
 
 #tableNumber {
-  font-size: 72px;
-  color: #2c3e66;
-  font-weight: bold;
+  font-size: 90px;
+  color: var(--gold);
+  font-weight: 600;
   margin: 10px 0;
 }
 
 .message {
-  font-size: 14px;
-  color: #555;
+  font-size: 15px;
+  color: #444;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+#matches button {
+  background: var(--champagne);
+  color: var(--navy);
+  border: 1px solid var(--gold);
+}
+
+#matches button:hover {
+  background: var(--gold);
+  color: white;
 }
 
 .hidden {
   display: none;
 }
 
-.fade-in {
-  animation: fade 1s ease;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pop {
-  0% { transform: scale(0.8); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes reveal {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
 }
-
-#loading {
-  margin-top: 15px;
-  font-style: italic;
-  color: #2c3e66;
-}
-
-#matches button {
-  margin-top: 8px;
-  background: #e6ecf5;
-  color: #1f2a44;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#matches button:hover {
-  background: #ccd5e0;
-}
-
