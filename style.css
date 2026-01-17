@@ -7,7 +7,6 @@ body {
   margin: 0;
 }
 
-/* Page background */
 .page {
   min-height: 100vh;
   background-color: #bfcfe0;
@@ -17,29 +16,27 @@ body {
   padding: 2.5rem;
 }
 
-/* Floral FRAME (OUTSIDE the box) */
+/* Floral frame */
 .frame {
   width: 100%;
-  max-width: 560px;
-
+  max-width: 600px;
   background: url("./assets/floral-border.png") no-repeat center;
   background-size: contain;
-
-  padding: 3.5rem;
+  padding: 3.8rem;
 }
 
-/* White content box */
+/* White card */
 .card {
   background: white;
-  border-radius: 18px;
-  padding: 3rem 2.5rem 3.5rem;
+  border-radius: 20px;
+  padding: 3.5rem 3rem 4rem;
   text-align: center;
 }
 
 /* Welcome */
 .welcome {
   color: #c8a349;
-  font-size: 3.2rem;
+  font-size: 3.4rem;
   margin-bottom: 2rem;
 }
 
@@ -66,7 +63,7 @@ button {
 }
 
 button.secondary {
-  margin-top: 1.3rem;
+  margin-top: 1.5rem;
   background-color: #c8a349;
   color: #243a5e;
 }
@@ -78,61 +75,56 @@ button.secondary {
 
 #guestName {
   color: #243a5e;
-  font-size: 2.3rem;
-  margin-bottom: 0.8rem;
+  font-size: 2.4rem;
+  margin-bottom: 0.6rem;
 }
 
-/* Table number */
+/* Table Number */
 .table-wrapper {
   position: relative;
-  margin-bottom: 0.8rem;
+  margin: 0.6rem 0;
 }
 
 #tableNumber {
-  font-size: 6.2rem;
+  font-size: 8rem; /* MUCH larger */
   color: #c8a349;
   font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
-/* Sparkle particles */
+/* Elegant sparkle shimmer */
 .sparkles {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  inset: -12px;
   background-image:
-    radial-gradient(circle, rgba(200,163,73,0.85) 1px, transparent 2px);
-  background-size: 20px 20px;
-  animation: sparkle 3s linear infinite;
+    radial-gradient(circle at 20% 30%, rgba(200,163,73,.8) 1px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(200,163,73,.6) 1px, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(200,163,73,.7) 1px, transparent 2px);
+  animation: shimmer 2.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
-@keyframes sparkle {
-  from { background-position: 0 0; }
-  to { background-position: 50px 50px; }
+@keyframes shimmer {
+  0% { opacity: .4; }
+  50% { opacity: .9; }
+  100% { opacity: .4; }
 }
 
 /* Message */
 .message {
   color: #243a5e;
-  font-size: 1.6rem;
-  margin: 0;
+  font-size: 1.7rem;
+  margin: 0.6rem 0 0;
 }
 
-/* Utility */
 .hidden {
   display: none;
 }
 
 /* Mobile */
 @media (max-width: 520px) {
-  .frame {
-    padding: 2.5rem;
-  }
-
-  .card {
-    padding: 2.5rem 2rem 3rem;
-  }
-
   #tableNumber {
-    font-size: 5.4rem;
+    font-size: 6.5rem;
   }
 }
