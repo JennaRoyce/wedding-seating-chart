@@ -17,23 +17,46 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
-/* FULL PAGE FLORAL CORNERS */
-.page-florals {
+/* FLORAL CORNERS */
+.floral {
   position: fixed;
-  inset: 0;
-  background: url("assets/floral-corners.png") no-repeat;
-  background-size: 100% 100%;
+  width: 220px;
+  height: auto;
   pointer-events: none;
   z-index: 0;
 }
 
+.top-left {
+  top: 0;
+  left: 0;
+}
+
+.top-right {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: scale(-1);
+}
+
 /* CARD */
 .container {
-  background: rgba(255,255,255,0.96);
-  border-radius: 20px;
-  padding: 50px 35px 60px;
+  background: rgba(255,255,255,0.97);
+  border-radius: 22px;
+  padding: 45px 35px 50px;
   text-align: center;
   width: 100%;
   max-width: 600px;
@@ -45,7 +68,7 @@ body {
 .title {
   font-size: 56px;
   color: var(--gold);
-  margin-bottom: 35px;
+  margin-bottom: 28px;
 }
 
 /* FORM */
@@ -69,7 +92,7 @@ button {
 }
 
 button.secondary {
-  margin-top: 35px;
+  margin-top: 26px;
   background: transparent;
   color: var(--navy);
   border: 2px solid var(--navy);
@@ -79,40 +102,41 @@ button.secondary {
   display: none;
 }
 
-/* RESULTS LAYOUT */
+/* RESULTS */
 .result {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 18px;
 }
 
 /* NAME */
 #guestName {
-  font-size: 42px;
+  font-size: 40px;
   color: var(--navy);
-  margin: 28px 0;
+  margin: 18px 0;
 }
 
 /* TABLE NUMBER */
 #tableNumber {
-  font-size: 140px;
+  font-size: 150px;
   font-weight: 600;
   color: var(--gold);
   position: relative;
-  margin: 28px 0;
+  margin: 18px 0;
 }
 
 /* MESSAGE */
 .message {
-  font-size: 32px;
+  font-size: 30px;
   color: var(--navy);
-  margin: 28px 0;
+  margin: 18px 0;
 }
 
 /* SPARKLES */
 .sparkles {
   position: absolute;
-  inset: -35px;
+  inset: -30px;
   pointer-events: none;
 }
 
