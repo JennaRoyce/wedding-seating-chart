@@ -3,9 +3,9 @@ const result = document.getElementById("result");
 const guestNameEl = document.getElementById("guestName");
 const tableNumberEl = document.getElementById("tableNumber");
 const resetBtn = document.getElementById("resetBtn");
+const welcomeTitle = document.getElementById("welcomeTitle");
 
-/* TEMP SAMPLE DATA
-   Replace later with CSV import */
+/* TEMP SAMPLE DATA */
 const guests = [
   { first: "Jenna", last: "Royce", table: "7" },
   { first: "Michael", last: "Smith", table: "12" },
@@ -31,6 +31,7 @@ form.addEventListener("submit", (e) => {
   guestNameEl.textContent = `${match.first} ${match.last}`;
   tableNumberEl.textContent = match.table;
 
+  welcomeTitle.classList.add("hidden");
   form.classList.add("hidden");
   result.classList.remove("hidden");
 });
@@ -38,5 +39,6 @@ form.addEventListener("submit", (e) => {
 resetBtn.addEventListener("click", () => {
   result.classList.add("hidden");
   form.classList.remove("hidden");
+  welcomeTitle.classList.remove("hidden");
   form.reset();
 });
