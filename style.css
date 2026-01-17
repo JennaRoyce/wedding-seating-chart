@@ -1,135 +1,128 @@
-:root {
-  --dusty-blue: #c7d4df;
-  --navy: #1f2d3d;
-  --gold: #c9a24d;
-}
-
 * {
   box-sizing: border-box;
+  font-family: "Playfair Display", serif;
 }
 
 body {
   margin: 0;
-  font-family: 'Playfair Display', serif;
-  background: var(--dusty-blue);
-  min-height: 100vh;
+  background-color: #bfcfe0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
 
-/* CARD */
-.container {
-  position: relative;
-  background: rgba(255,255,255,0.97);
-  border-radius: 22px;
-  padding: 50px 40px 55px;
-  text-align: center;
+/* Floral frame */
+.card-frame {
+  background-image: url("./assets/floral-border.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  padding: 50px;
+  max-width: 520px;
   width: 100%;
-  max-width: 620px;
 }
 
-/* FLORAL CORNERS AROUND CARD */
-.floral {
-  position: absolute;
-  width: 160px;
-  height: auto;
-  pointer-events: none;
+/* Inner card */
+.container {
+  background-color: #c9d6e3;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  text-align: center;
 }
 
-.tl { top: -18px; left: -18px; }
-.tr { top: -18px; right: -18px; transform: scaleX(-1); }
-.bl { bottom: -18px; left: -18px; transform: scaleY(-1); }
-.br { bottom: -18px; right: -18px; transform: scale(-1); }
-
-/* WELCOME */
-.title {
-  font-size: 56px;
-  color: var(--gold);
-  margin-bottom: 28px;
+/* Welcome */
+.welcome {
+  color: #c8a349;
+  font-size: 3rem;
+  margin-bottom: 1.8rem;
 }
 
-/* FORM */
+/* Inputs */
 input {
   width: 100%;
   padding: 14px;
   margin-bottom: 14px;
+  font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 18px;
+  border: none;
 }
 
+/* Buttons */
 button {
-  background: var(--navy);
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  background-color: #243a5e;
   color: white;
   border: none;
-  padding: 14px 26px;
-  border-radius: 10px;
-  font-size: 18px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 button.secondary {
-  margin-top: 24px;
-  background: transparent;
-  color: var(--navy);
-  border: 2px solid var(--navy);
+  margin-top: 1.5rem;
+  background-color: #c8a349;
+  color: #243a5e;
 }
 
+/* Results */
+#result {
+  margin-top: 2.2rem;
+}
+
+#guestName {
+  color: #243a5e;
+  font-size: 2.2rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Table number */
+.table-wrapper {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+#tableNumber {
+  font-size: 6rem;
+  color: #c8a349;
+  font-weight: 600;
+}
+
+/* Sparkles */
+.sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(200,163,73,0.8) 1px, transparent 2px);
+  background-size: 18px 18px;
+  animation: sparkle 2.5s linear infinite;
+}
+
+@keyframes sparkle {
+  from { background-position: 0 0; }
+  to { background-position: 40px 40px; }
+}
+
+/* Message */
+.message {
+  color: #243a5e;
+  font-size: 1.6rem;
+  margin-top: 0;
+}
+
+/* Utility */
 .hidden {
   display: none;
 }
 
-/* RESULTS */
-.result {
-  margin-top: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* Mobile */
+@media (max-width: 500px) {
+  .card-frame {
+    padding: 30px;
+  }
 
-/* NAME */
-#guestName {
-  font-size: 40px;
-  color: var(--navy);
-  margin: 14px 0;
-}
-
-/* TABLE NUMBER */
-#tableNumber {
-  font-size: 150px;
-  font-weight: 600;
-  color: var(--gold);
-  position: relative;
-  margin: 14px 0;
-}
-
-/* MESSAGE */
-.message {
-  font-size: 30px;
-  color: var(--navy);
-  margin: 14px 0;
-}
-
-/* SPARKLES */
-.sparkles {
-  position: absolute;
-  inset: -28px;
-  pointer-events: none;
-}
-
-.sparkle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: radial-gradient(circle, #fff6d1 0%, #c9a24d 60%);
-  border-radius: 50%;
-  opacity: 0;
-  animation: sparkleFloat 2.6s infinite ease-in-out;
-}
-
-@keyframes sparkleFloat {
-  0% { transform: translateY(10px) scale(0.5); opacity: 0; }
-  40% { opacity: 1; }
-  100% { transform: translateY(-20px) scale(1); opacity: 0; }
+  #tableNumber {
+    font-size: 5rem;
+  }
 }
