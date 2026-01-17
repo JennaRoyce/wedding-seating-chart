@@ -1,85 +1,54 @@
 let guests = [];
 
-// Nickname mapping
-const nicknames = {
-  jen: "jennifer",
-  jenny: "jennifer",
-  alex: "alexander",
-  mike: "michael",
-  liz: "elizabeth",
-  beth: "elizabeth",
-  kate: "katherine",
-  katie: "katherine"
-};
-
-// Normalize input safely
-function normalize(text) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z]/g, "")
-    .trim();
-}
-
-// Load CSV
 fetch("guests.csv")
   .then(res => res.text())
   .then(text => {
-    text = text.replace(/\uFEFF/g, ""); // remove BOM
-    const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
-
-    lines.shift(); // remove header row
-
-    guests = lines.map(line => {
-      const [first, last, table] = line.split(",");
+    const rows = text.trim().split("\n").slice(1);
+    guests = rows.map(row => {
+      const [first, last, table] = row.split(",");
       return {
-        first: normalize(first),
-        last: normalize(last),
+        first: first.toLowerCase().trim(),
+        last: last.toLowerCase().trim(),
         table: table.trim()
       };
     });
   });
 
-// Form submit
 document.getElementById("searchForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  document.getElementById("loading").classList.remove("hidden");
-  document.getElementById("matches").classList.add("hidden");
+  const first = document.getElementById("firstName").value.toLowerCase().trim();
+  const last = document.getElementById("lastName").value.toLowerCase().trim();
 
-  const inputFirst = normalize(document.getElementById("firstName").value);
-  const inputLast = normalize(document.getElementById("lastName").value);
-
-  const first =
-    nicknames[inputFirst] ? nicknames[inputFirst] : inputFirst;
-
-  let results = guests.filter(g =>
+  const matches = guests.filter(g =>
     g.first.includes(first) &&
-    g.last.includes(inputLast)
+    (last === "" || g.last.includes(last))
   );
 
-  if (results.length === 0 && inputLast) {
-    results = guests.filter(g =>
-      g.last.includes(inputLast)
-    );
+  if (matches.length === 1) {
+    showResult(matches[0]);
+  } else if (matches.length > 1) {
+    showMatches(matches);
+  } else {
+    alert("Sorry, we couldn't find that name.");
   }
-
-  setTimeout(() => {
-    document.getElementById("loading").classList.add("hidden");
-
-    if (results.length === 1) {
-      showResult(results[0]);
-    } else if (results.length > 1) {
-      showMatches(results);
-    } else {
-      alert("We couldn't find your name. Please see our coordinator.");
-    }
-  }, 600);
 });
 
-// Show multiple matches
+function showResult(guest) {
+  document.getElementById("guestName").textContent =
+    capitalize(guest.first) + " " + capitalize(guest.last);
+
+  document.querySelector("#tableNumber .number").textContent = guest.table;
+
+  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("matches").classList.add("hidden");
+
+  addSparkles();
+}
+
 function showMatches(matches) {
   const container = document.getElementById("matches");
-  container.innerHTML = "<p>Please select your name</p>";
+  container.innerHTML = "<p>Please select your name:</p>";
 
   matches.forEach(g => {
     const btn = document.createElement("button");
@@ -91,25 +60,25 @@ function showMatches(matches) {
   container.classList.remove("hidden");
 }
 
-// Show result
-function showResult(guest) {
-  document.getElementById("guestName").textContent =
-    capitalize(guest.first) + " " + capitalize(guest.last);
-
-  document.getElementById("tableNumber").textContent = guest.table;
-
-  document.getElementById("result").classList.remove("hidden");
-  document.getElementById("matches").classList.add("hidden");
-}
-
-// Reset search
 function resetSearch() {
-  document.getElementById("searchForm").reset();
   document.getElementById("result").classList.add("hidden");
-  document.getElementById("matches").classList.add("hidden");
+  document.getElementById("searchForm").reset();
 }
 
-// Capitalize helper
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function addSparkles() {
+  const container = document.querySelector(".sparkles");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 16; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+    sparkle.style.left = Math.random() * 100 + "%";
+    sparkle.style.top = Math.random() * 100 + "%";
+    sparkle.style.animationDelay = Math.random() * 2 + "s";
+    container.appendChild(sparkle);
+  }
 }
