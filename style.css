@@ -63,59 +63,60 @@ button {
 }
 
 button.secondary {
-  margin-top: 1.5rem;
+  margin-top: 1.6rem;
   background-color: #c8a349;
   color: #243a5e;
 }
 
 /* Results */
 #result {
-  margin-top: 2rem;
+  margin-top: 1.8rem;
 }
 
 #guestName {
   color: #243a5e;
-  font-size: 2.4rem;
-  margin-bottom: 0.6rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Table Number */
 .table-wrapper {
   position: relative;
-  margin: 0.6rem 0;
+  margin: 0.5rem 0;
 }
 
 #tableNumber {
-  font-size: 8rem; /* MUCH larger */
+  font-size: 9rem; /* VERY large */
   color: #c8a349;
   font-weight: 600;
   position: relative;
   z-index: 1;
 }
 
-/* Elegant sparkle shimmer */
+/* STAR SPARKLES */
 .sparkles {
   position: absolute;
-  inset: -12px;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(200,163,73,.8) 1px, transparent 2px),
-    radial-gradient(circle at 70% 60%, rgba(200,163,73,.6) 1px, transparent 2px),
-    radial-gradient(circle at 40% 80%, rgba(200,163,73,.7) 1px, transparent 2px);
-  animation: shimmer 2.5s ease-in-out infinite;
+  inset: -18px;
   pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(200,163,73,1) 0 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,215,130,.9) 0 1.5px, transparent 3px),
+    radial-gradient(circle, rgba(200,163,73,.8) 0 1.2px, transparent 3px);
+  background-size: 40px 40px;
+  animation: twinkle 2s ease-in-out infinite;
 }
 
-@keyframes shimmer {
-  0% { opacity: .4; }
-  50% { opacity: .9; }
-  100% { opacity: .4; }
+@keyframes twinkle {
+  0%   { opacity: .4; transform: scale(1); }
+  50%  { opacity: 1;  transform: scale(1.05); }
+  100% { opacity: .4; transform: scale(1); }
 }
 
 /* Message */
 .message {
   color: #243a5e;
-  font-size: 1.7rem;
-  margin: 0.6rem 0 0;
+  font-size: 1.8rem;
+  margin: 0.5rem 0 0;
 }
 
 .hidden {
@@ -125,6 +126,6 @@ button.secondary {
 /* Mobile */
 @media (max-width: 520px) {
   #tableNumber {
-    font-size: 6.5rem;
+    font-size: 7rem;
   }
 }
