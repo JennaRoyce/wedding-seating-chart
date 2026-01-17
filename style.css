@@ -75,48 +75,38 @@ button.secondary {
 
 #guestName {
   color: #243a5e;
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.6rem;
+  margin-bottom: 0.3rem;
 }
 
-/* Table Number */
-.table-wrapper {
-  position: relative;
-  margin: 0.5rem 0;
-}
-
+/* Table number with subtle gold shimmer */
 #tableNumber {
-  font-size: 9rem; /* VERY large */
-  color: #c8a349;
+  font-size: 9.5rem;
   font-weight: 600;
-  position: relative;
-  z-index: 1;
+  margin: 0.2rem 0;
+  background: linear-gradient(
+    110deg,
+    #c8a349 40%,
+    #f2d98d 50%,
+    #c8a349 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease-in-out infinite;
 }
 
-/* STAR SPARKLES */
-.sparkles {
-  position: absolute;
-  inset: -18px;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle, rgba(200,163,73,1) 0 2px, transparent 3px),
-    radial-gradient(circle, rgba(255,215,130,.9) 0 1.5px, transparent 3px),
-    radial-gradient(circle, rgba(200,163,73,.8) 0 1.2px, transparent 3px);
-  background-size: 40px 40px;
-  animation: twinkle 2s ease-in-out infinite;
-}
-
-@keyframes twinkle {
-  0%   { opacity: .4; transform: scale(1); }
-  50%  { opacity: 1;  transform: scale(1.05); }
-  100% { opacity: .4; transform: scale(1); }
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  50% { background-position: 0 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Message */
 .message {
   color: #243a5e;
   font-size: 1.8rem;
-  margin: 0.5rem 0 0;
+  margin-top: 0.3rem;
 }
 
 .hidden {
@@ -126,6 +116,6 @@ button.secondary {
 /* Mobile */
 @media (max-width: 520px) {
   #tableNumber {
-    font-size: 7rem;
+    font-size: 7.2rem;
   }
 }
