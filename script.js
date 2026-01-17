@@ -1,101 +1,54 @@
+const form = document.getElementById("searchForm");
+const result = document.getElementById("result");
+const guestNameEl = document.getElementById("guestName");
+const tableNumberEl = document.getElementById("tableNumber");
+const resetBtn = document.getElementById("resetBtn");
+
 let guests = [];
 
-fetch("guests.csv")
+// Load CSV
+fetch("./assets/guests.csv")
   .then(res => res.text())
   .then(text => {
-    const rows = text.trim().split("\n").slice(1);
+    const rows = text.split("\n").slice(1);
     guests = rows.map(row => {
       const [first, last, table] = row.split(",");
       return {
-        first: first.toLowerCase().trim(),
-        last: last.toLowerCase().trim(),
-        table: table.trim()
+        first: first?.trim().toLowerCase(),
+        last: last?.trim().toLowerCase(),
+        table: table?.trim()
       };
     });
   });
 
-document.getElementById("searchForm").addEventListener("submit", e => {
+form.addEventListener("submit", e => {
   e.preventDefault();
 
-  const first = document.getElementById("firstName").value.toLowerCase().trim();
-  const last = document.getElementById("lastName").value.toLowerCase().trim();
+  const firstInput = document.getElementById("firstName").value.toLowerCase();
+  const lastInput = document.getElementById("lastName").value.toLowerCase();
 
-  const matches = guests.filter(g =>
-    g.first.includes(first) &&
-    (last === "" || g.last.includes(last))
+  const match = guests.find(g =>
+    g.first.includes(firstInput) &&
+    (lastInput === "" || g.last.includes(lastInput))
   );
 
-  if (matches.length === 1) {
-    showResult(matches[0]);
-  } else if (matches.length > 1) {
-    showMatches(matches);
-  } else {
-    alert("Sorry, we couldn't find that name.");
+  if (!match) {
+    alert("Guest not found. Please try again.");
+    return;
   }
+
+  guestNameEl.textContent =
+    `${capitalize(match.first)} ${capitalize(match.last)}`;
+  tableNumberEl.textContent = match.table;
+
+  result.classList.remove("hidden");
 });
 
-function showResult(guest) {
-  resetDisplay(false);
-
-  document.getElementById("guestName").textContent =
-    capitalize(guest.first) + " " + capitalize(guest.last);
-
-  document.getElementById("result").classList.remove("hidden");
-
-  setTimeout(() => {
-    const table = document.getElementById("tableNumber");
-    table.querySelector(".number").textContent = guest.table;
-    table.classList.remove("hidden");
-    addSparkles();
-  }, 300);
-
-  setTimeout(() => {
-    document.querySelector(".message").classList.remove("hidden");
-  }, 900);
-}
-
-function showMatches(matches) {
-  const container = document.getElementById("matches");
-  container.innerHTML = "<p>Please select your name:</p>";
-
-  matches.forEach(g => {
-    const btn = document.createElement("button");
-    btn.textContent = capitalize(g.first) + " " + capitalize(g.last);
-    btn.onclick = () => showResult(g);
-    container.appendChild(btn);
-  });
-
-  container.classList.remove("hidden");
-}
-
-document.getElementById("resetBtn").addEventListener("click", resetDisplay);
-
-function resetDisplay(showForm = true) {
-  document.getElementById("result").classList.add("hidden");
-  document.getElementById("tableNumber").classList.add("hidden");
-  document.querySelector(".message").classList.add("hidden");
-  document.querySelector(".sparkles").innerHTML = "";
-  document.getElementById("matches").classList.add("hidden");
-
-  if (showForm) {
-    document.getElementById("searchForm").reset();
-  }
-}
+resetBtn.addEventListener("click", () => {
+  result.classList.add("hidden");
+  form.reset();
+});
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function addSparkles() {
-  const container = document.querySelector(".sparkles");
-  container.innerHTML = "";
-
-  for (let i = 0; i < 16; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.className = "sparkle";
-    sparkle.style.left = Math.random() * 100 + "%";
-    sparkle.style.top = Math.random() * 100 + "%";
-    sparkle.style.animationDelay = Math.random() * 2 + "s";
-    container.appendChild(sparkle);
-  }
 }
