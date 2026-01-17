@@ -4,29 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Your Table</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container fade-in">
-    <h1 class="title">Welcome 💙</h1>
 
-    <form id="searchForm">
-      <input type="text" id="firstName" placeholder="First Name" required />
-      <input type="text" id="lastName" placeholder="Last Name" required />
-      <button type="submit">Find My Table</button>
-    </form>
+  <div class="page-frame">
+    <div class="container">
 
-    <div id="loading" class="hidden">Finding your seat…</div>
-<div id="matches" class="hidden"></div>
+      <h1 class="title">Welcome</h1>
 
-    <div id="result" class="result hidden">
-      <h2 id="guestName"></h2>
-      <div id="tableNumber"></div>
-      <p class="message">
-        We're so glad you're here!  
-        Now find your seat before meeting us on the floor to use those dancing feet!
-      </p>
+      <form id="searchForm">
+        <input type="text" id="firstName" placeholder="First Name" required />
+        <input type="text" id="lastName" placeholder="Last Name" />
+        <button type="submit">Find My Table</button>
+      </form>
+
+      <div id="loading" class="hidden">Finding your seat…</div>
+      <div id="matches" class="hidden"></div>
+
+      <div id="result" class="result hidden">
+        <h2 id="guestName"></h2>
+        <div id="tableNumber"></div>
+        <p class="message">We are so glad you are here!</p>
+        <button class="secondary" onclick="resetSearch()">Search Another Guest</button>
+      </div>
+
     </div>
   </div>
 
