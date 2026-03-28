@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: "Playfair Display", serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -10,40 +10,99 @@ body {
 /* ===== PAGE ===== */
 .page {
   min-height: 100svh; /* better mobile viewport handling */
-  background-color: #bfcfe0;
+  background:
+    radial-gradient(circle at top left, rgba(244, 233, 205, 0.65), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(211, 222, 235, 0.72), transparent 34%),
+    linear-gradient(180deg, #edf3f8 0%, #d9e3ef 48%, #c9d6e7 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.25rem;
+  padding: 1.5rem;
 }
 
 /* ===== FLORAL FRAME (OUTSIDE CARD) ===== */
 .frame {
+  position: relative;
   width: 100%;
-  max-width: 420px; /* mobile-friendly width */
+  max-width: 460px; /* mobile-friendly width */
+  padding: 2.1rem;
+}
+
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
   background: url("./assets/floral-border.png") no-repeat center;
   background-size: contain;
-  padding: 2.2rem;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.frame::before {
+  top: -8px;
+  left: -30px;
+  transform: rotate(-10deg);
+}
+
+.frame::after {
+  right: -30px;
+  bottom: -16px;
+  transform: rotate(170deg);
 }
 
 /* ===== WHITE CARD ===== */
 .card {
-  background: white;
-  border-radius: 18px;
-  padding: 2.4rem 1.6rem 2.8rem;
+  position: relative;
+  overflow: visible;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92));
+  border-radius: 30px;
+  padding: 2.7rem 1.7rem 3rem;
   text-align: center;
+  border: 1px solid rgba(201, 174, 108, 0.28);
+  box-shadow:
+    0 24px 60px rgba(51, 72, 104, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.card::before {
+  border: 1px solid rgba(201, 174, 108, 0.18);
+}
+
+.card::after {
+  inset: auto;
+  top: 16px;
+  right: 18px;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(201, 163, 73, 0.2) 0%, rgba(201, 163, 73, 0.02) 68%, transparent 72%);
 }
 
 /* ===== WELCOME ===== */
 .welcome {
   color: #c8a349;
   font-size: 2.6rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   margin-bottom: 0.5rem;
 }
 
 .sheet-note {
-  color: #243a5e;
-  font-size: 0.95rem;
+  color: #5b6f8d;
+  font-size: 0.92rem;
   line-height: 1.5;
   margin: 0 0 1.4rem;
 }
@@ -51,11 +110,25 @@ body {
 /* ===== INPUTS ===== */
 input {
   width: 100%;
-  padding: 14px;
+  padding: 14px 16px;
   margin-bottom: 12px;
   font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  border-radius: 14px;
+  border: 1px solid rgba(123, 145, 175, 0.24);
+  background: rgba(244, 248, 252, 0.9);
+  color: #243a5e;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+input::placeholder {
+  color: #7f90aa;
+}
+
+input:focus {
+  outline: none;
+  border-color: rgba(200, 163, 73, 0.52);
+  box-shadow: 0 0 0 4px rgba(200, 163, 73, 0.12);
+  transform: translateY(-1px);
 }
 
 /* ===== BUTTONS ===== */
@@ -63,17 +136,28 @@ button {
   width: 100%;
   padding: 14px;
   font-size: 1.05rem;
-  background-color: #243a5e;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #314c73 0%, #243a5e 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 14px;
   cursor: pointer;
+  box-shadow: 0 12px 24px rgba(36, 58, 94, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(36, 58, 94, 0.24);
+  filter: brightness(1.03);
 }
 
 button.secondary {
   margin-top: 1.2rem;
-  background-color: #c8a349;
+  background: linear-gradient(135deg, #d8bb72 0%, #c8a349 100%);
   color: #243a5e;
+  box-shadow: 0 12px 24px rgba(200, 163, 73, 0.2);
 }
 
 /* ===== RESULTS ===== */
@@ -84,15 +168,17 @@ button.secondary {
 #guestName {
   color: #243a5e;
   font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   margin-bottom: 0.2rem;
 }
 
 /* ===== TABLE NUMBER ===== */
 #tableNumber {
   font-size: 6.8rem; /* mobile large but safe */
-  font-weight: 600;
+  font-weight: 700;
   margin: 0.1rem 0;
-  line-height: 1;
+  line-height: 0.95;
   background: linear-gradient(
     110deg,
     #c8a349 40%,
@@ -114,7 +200,8 @@ button.secondary {
 /* ===== MESSAGE ===== */
 .message {
   color: #243a5e;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 500;
   margin-top: 0.3rem;
 }
 
@@ -128,12 +215,12 @@ button.secondary {
    ====================================================== */
 @media (min-width: 600px) {
   .frame {
-    max-width: 520px;
-    padding: 3rem;
+    max-width: 560px;
+    padding: 3.1rem;
   }
 
   .card {
-    padding: 3rem 2.5rem 3.5rem;
+    padding: 3rem 2.4rem 3.5rem;
   }
 
   .welcome {
@@ -149,7 +236,7 @@ button.secondary {
   }
 
   .message {
-    font-size: 1.7rem;
+    font-size: 1.45rem;
   }
 }
 
@@ -158,8 +245,8 @@ button.secondary {
    ====================================================== */
 @media (min-width: 900px) {
   .frame {
-    max-width: 600px;
-    padding: 3.8rem;
+    max-width: 620px;
+    padding: 3.7rem;
   }
 
   #tableNumber {
