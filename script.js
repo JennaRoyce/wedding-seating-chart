@@ -107,7 +107,7 @@ async function loadGuests() {
       };
     }).filter(guest => guest.first && guest.last && guest.table);
 
-    sheetStatus.textContent = "Guest list is live and ready to search.";
+    sheetStatus.textContent = "";
     return true;
   } catch (error) {
     console.error("Unable to load guest list:", error);
