@@ -9,6 +9,8 @@ body {
 
 /* ===== PAGE ===== */
 .page {
+  position: relative;
+  overflow: hidden;
   min-height: 100svh; /* better mobile viewport handling */
   background:
     radial-gradient(circle at top left, rgba(244, 233, 205, 0.65), transparent 30%),
@@ -20,36 +22,36 @@ body {
   padding: 1.5rem;
 }
 
+.page::before,
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page::before {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1200'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.42' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 198c68-8 98 68 124 130s80 84 126 58c46-26 40-96-18-122-46-20-96 2-126 38'/%3E%3Cpath d='M132 256c-18-42-8-90 26-120'/%3E%3Cpath d='M164 246c24-32 64-48 104-42'/%3E%3Cpath d='M334 122c28 54 14 122-34 166'/%3E%3Cpath d='M286 224c42-12 88-4 122 22'/%3E%3Cpath d='M520 102c52 8 96 54 108 112'/%3E%3Cpath d='M598 166c-8-36 4-74 32-98'/%3E%3Cpath d='M674 184c40-12 84-6 118 16'/%3E%3Cpath d='M910 116c-12 62-58 116-118 138'/%3E%3Cpath d='M840 204c46 0 88 20 118 56'/%3E%3Cpath d='M1108 146c54 22 88 78 84 136'/%3E%3Cpath d='M1186 208c8-34 30-62 60-80'/%3E%3Cpath d='M1322 154c58 20 98 78 98 140'/%3E%3Cpath d='M1394 226c8-34 28-66 56-86'/%3E%3Cpath d='M88 770c40-58 106-92 176-90'/%3E%3Cpath d='M180 704c-6-42 10-86 42-114'/%3E%3Cpath d='M278 728c44-20 96-18 138 6'/%3E%3Cpath d='M482 704c16 60-2 128-48 170'/%3E%3Cpath d='M426 804c42-12 88-4 122 22'/%3E%3Cpath d='M720 730c46-10 94 6 128 42'/%3E%3Cpath d='M790 686c4-44 28-84 64-110'/%3E%3Cpath d='M1000 748c50 0 98 24 128 64'/%3E%3Cpath d='M1094 688c-6-40 6-82 34-112'/%3E%3Cpath d='M1264 734c56 10 104 50 126 102'/%3E%3Cpath d='M1352 690c4-38 22-74 50-100'/%3E%3C/g%3E%3Cg fill='%23d7b764' fill-opacity='.26'%3E%3Ccircle cx='110' cy='240' r='10'/%3E%3Ccircle cx='310' cy='206' r='8'/%3E%3Ccircle cx='602' cy='176' r='9'/%3E%3Ccircle cx='858' cy='206' r='8'/%3E%3Ccircle cx='1184' cy='214' r='9'/%3E%3Ccircle cx='1410' cy='234' r='8'/%3E%3Ccircle cx='176' cy='712' r='10'/%3E%3Ccircle cx='454' cy='786' r='8'/%3E%3Ccircle cx='794' cy='742' r='9'/%3E%3Ccircle cx='1098' cy='750' r='8'/%3E%3Ccircle cx='1372' cy='738' r='9'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  opacity: 0.5;
+}
+
+.page::after {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(255, 255, 255, 0.34), transparent 18%),
+    radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.26), transparent 16%),
+    radial-gradient(circle at 20% 82%, rgba(242, 217, 141, 0.18), transparent 16%),
+    radial-gradient(circle at 82% 78%, rgba(242, 217, 141, 0.14), transparent 14%);
+}
+
 /* ===== FLORAL FRAME (OUTSIDE CARD) ===== */
 .frame {
   position: relative;
   width: 100%;
   max-width: 460px; /* mobile-friendly width */
   padding: 2.1rem;
-}
-
-.frame::before,
-.frame::after {
-  content: "";
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  background: url("./assets/floral-border.png") no-repeat center;
-  background-size: contain;
-  opacity: 0.18;
-  pointer-events: none;
-}
-
-.frame::before {
-  top: -8px;
-  left: -30px;
-  transform: rotate(-10deg);
-}
-
-.frame::after {
-  right: -30px;
-  bottom: -16px;
-  transform: rotate(170deg);
+  z-index: 1;
 }
 
 /* ===== WHITE CARD ===== */
