@@ -38,7 +38,14 @@ body {
 .welcome {
   color: #c8a349;
   font-size: 2.6rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.sheet-note {
+  color: #243a5e;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 1.4rem;
 }
 
 /* ===== INPUTS ===== */
