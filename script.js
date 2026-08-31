@@ -5,6 +5,7 @@ const tableNumberEl = document.getElementById("tableNumber");
 const resetBtn = document.getElementById("resetBtn");
 const welcomeTitle = document.getElementById("welcomeTitle");
 const sheetStatus = document.getElementById("sheetStatus");
+const instructions = document.getElementById("instructions");
 
 const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
@@ -257,9 +258,11 @@ function similarityScore(input, candidate) {
   }
 
   /*
-    Exact beginning match.
+    Allows partial first names.
+
     Example:
-      "kath" -> "katherine"
+      kath -> katherine
+      rob -> robert
   */
 
   if (
@@ -277,7 +280,7 @@ function similarityScore(input, candidate) {
   }
 
   /*
-    Very small spelling difference.
+    One-character typo.
   */
 
   const distance =
@@ -292,14 +295,15 @@ function similarityScore(input, candidate) {
       candidate.length
     );
 
-  if (distance === 1 && longestLength >= 4) {
+  if (
+    distance === 1 &&
+    longestLength >= 4
+  ) {
     return 0.82;
   }
 
   /*
-    Slightly more forgiving for longer names.
-    Two-character differences are only allowed
-    when the names are reasonably long.
+    Two-character typo for longer names.
   */
 
   if (
@@ -344,7 +348,7 @@ function prepareGuest(guest) {
 
 
 /* =========================================================
-   SCORE A POTENTIAL MATCH
+   SCORE POTENTIAL MATCH
    ========================================================= */
 
 function scoreGuestMatch(
@@ -359,14 +363,14 @@ function scoreGuestMatch(
   const last =
     normalizeText(lastInput);
 
+
   /*
-    Suffix handling.
+    If the guest enters a suffix, it must match.
 
-    If the guest specifically enters Jr./Sr.,
-    it must match that suffix.
+    Example:
 
-    If they leave the suffix out, Jr./Sr. candidates
-    remain possible and may cause an ambiguity prompt.
+    Robert Smith Jr. -> Jr. only
+    Robert Smith Sr. -> Sr. only
   */
 
   if (
@@ -378,18 +382,17 @@ function scoreGuestMatch(
 
 
   /* -------------------------------------------------------
-     LAST NAME SCORE
+     LAST NAME
      ------------------------------------------------------- */
 
-  let lastScore =
+  const lastScore =
     similarityScore(
       last,
       guest.normalizedLast
     );
 
   /*
-    Last names need to be stronger than first names.
-    We don't want a vague last-name match.
+    Last names must be reasonably close.
   */
 
   if (lastScore < 0.72) {
@@ -398,12 +401,15 @@ function scoreGuestMatch(
 
 
   /* -------------------------------------------------------
-     FIRST NAME / NICKNAME SCORE
+     FIRST NAME / NICKNAME
      ------------------------------------------------------- */
 
   let bestFirstScore = 0;
 
-  for (const variant of guest.firstVariants) {
+  for (
+    const variant of guest.firstVariants
+  ) {
+
     const score =
       similarityScore(
         first,
@@ -432,7 +438,7 @@ function scoreGuestMatch(
 
 
   /*
-    Exact last name gets a meaningful boost.
+    Exact last name boost.
   */
 
   if (
@@ -443,7 +449,7 @@ function scoreGuestMatch(
 
 
   /*
-    Exact first name or nickname gets a meaningful boost.
+    Exact first name or nickname boost.
   */
 
   if (
@@ -454,7 +460,7 @@ function scoreGuestMatch(
 
 
   /*
-    Explicit suffix match gets a boost.
+    Explicit suffix boost.
   */
 
   if (
@@ -486,20 +492,27 @@ function findMatches(
     parsedLast.suffix;
 
   const preparedGuests =
-    guests.map(prepareGuest);
+    guests.map(
+      prepareGuest
+    );
 
   const scoredMatches =
     preparedGuests
       .map(guest => ({
         guest,
-        score: scoreGuestMatch(
-          guest,
-          firstInput,
-          parsedLast.last,
-          requestedSuffix
-        )
+
+        score:
+          scoreGuestMatch(
+            guest,
+            firstInput,
+            parsedLast.last,
+            requestedSuffix
+          )
       }))
-      .filter(match => match.score >= 0.72)
+      .filter(
+        match =>
+          match.score >= 0.72
+      )
       .sort(
         (a, b) =>
           b.score - a.score
@@ -510,11 +523,16 @@ function findMatches(
 
 
 /* =========================================================
-   DETERMINE WHETHER A MATCH IS CLEAR
+   DETERMINE WHETHER MATCH IS CLEAR
    ========================================================= */
 
-function chooseMatches(scoredMatches) {
-  if (!scoredMatches.length) {
+function chooseMatches(
+  scoredMatches
+) {
+
+  if (
+    !scoredMatches.length
+  ) {
     return {
       type: "none",
       matches: []
@@ -523,13 +541,12 @@ function chooseMatches(scoredMatches) {
 
 
   /*
-    One strong match.
-
-    If the best match is significantly stronger than
-    the next possible match, it is safe to use it.
+    Only one possible match.
   */
 
-  if (scoredMatches.length === 1) {
+  if (
+    scoredMatches.length === 1
+  ) {
     return {
       type: "single",
       matches: [
@@ -547,14 +564,13 @@ function chooseMatches(scoredMatches) {
 
 
   /*
-    If the top result is substantially stronger,
-    use it.
-
-    Otherwise ask the guest to choose.
+    If the first result is clearly better
+    than the second result, use it.
   */
 
   const scoreDifference =
-    best.score - second.score;
+    best.score -
+    second.score;
 
   if (
     best.score >= 0.91 &&
@@ -570,7 +586,8 @@ function chooseMatches(scoredMatches) {
 
 
   /*
-    Multiple reasonable matches.
+    Otherwise, ask the guest to verify
+    which person they are.
   */
 
   return {
@@ -578,7 +595,10 @@ function chooseMatches(scoredMatches) {
     matches:
       scoredMatches
         .slice(0, 8)
-        .map(match => match.guest)
+        .map(
+          match =>
+            match.guest
+        )
   };
 }
 
@@ -588,12 +608,14 @@ function chooseMatches(scoredMatches) {
    ========================================================= */
 
 async function loadGuests() {
+
   isLoading = true;
 
   sheetStatus.textContent =
     "Refreshing guest list...";
 
   try {
+
     const response =
       await fetch(
         `${GOOGLE_SHEET_CSV_URL}&t=${Date.now()}`,
@@ -602,52 +624,74 @@ async function loadGuests() {
         }
       );
 
+
     if (!response.ok) {
       throw new Error(
         `Request failed with status ${response.status}`
       );
     }
 
+
     const text =
       await response.text();
+
 
     const rows =
       text
         .split(/\r?\n/)
-        .map(row => row.trim())
+        .map(
+          row =>
+            row.trim()
+        )
         .filter(Boolean);
 
-    if (rows.length < 2) {
+
+    if (
+      rows.length < 2
+    ) {
       throw new Error(
         "The sheet is empty or missing guest rows."
       );
     }
 
+
     const headers =
-      parseCsvRow(rows[0])
-        .map(normalizeHeader);
+      parseCsvRow(
+        rows[0]
+      ).map(
+        normalizeHeader
+      );
+
 
     const firstNameIndex =
       headers.indexOf(
         "first name"
       );
 
+
     const lastNameIndex =
       headers.indexOf(
         "last name"
       );
 
+
     const nicknamesIndex =
       headers.indexOf(
         "nicknames"
       ) !== -1
-        ? headers.indexOf("nicknames")
-        : headers.indexOf("nickname");
+        ? headers.indexOf(
+            "nicknames"
+          )
+        : headers.indexOf(
+            "nickname"
+          );
+
 
     const suffixIndex =
       headers.indexOf(
         "suffix"
       );
+
 
     const tableNumberIndex =
       headers.indexOf(
@@ -660,9 +704,11 @@ async function loadGuests() {
       lastNameIndex === -1 ||
       tableNumberIndex === -1
     ) {
+
       throw new Error(
         "The sheet must contain First Name, Last Name, and Table Number columns."
       );
+
     }
 
 
@@ -670,40 +716,54 @@ async function loadGuests() {
       rows
         .slice(1)
         .map(row => {
+
           const columns =
             parseCsvRow(row);
 
+
           const first =
             (
-              columns[firstNameIndex] ||
-              ""
+              columns[
+                firstNameIndex
+              ] || ""
             ).trim();
+
 
           const last =
             (
-              columns[lastNameIndex] ||
-              ""
+              columns[
+                lastNameIndex
+              ] || ""
             ).trim();
+
 
           const nicknames =
             nicknamesIndex === -1
               ? []
               : parseNicknames(
-                  columns[nicknamesIndex]
+                  columns[
+                    nicknamesIndex
+                  ]
                 );
+
 
           const suffix =
             suffixIndex === -1
               ? ""
               : normalizeSuffix(
-                  columns[suffixIndex]
+                  columns[
+                    suffixIndex
+                  ]
                 );
+
 
           const table =
             (
-              columns[tableNumberIndex] ||
-              ""
+              columns[
+                tableNumberIndex
+              ] || ""
             ).trim();
+
 
           return {
             first,
@@ -712,6 +772,7 @@ async function loadGuests() {
             suffix,
             table
           };
+
         })
         .filter(
           guest =>
@@ -732,13 +793,16 @@ async function loadGuests() {
       error
     );
 
+
     sheetStatus.textContent =
       "Could not load the guest list. Please try again.";
 
     return false;
 
   } finally {
+
     isLoading = false;
+
   }
 }
 
@@ -747,24 +811,44 @@ async function loadGuests() {
    SHOW ONE GUEST
    ========================================================= */
 
-function showGuest(guest) {
+function showGuest(
+  guest
+) {
+
   guestNameEl.textContent =
-    getDisplayName(guest);
+    getDisplayName(
+      guest
+    );
+
 
   tableNumberEl.textContent =
     guest.table;
+
 
   matchArea.classList.add(
     "hidden"
   );
 
+
   result.classList.remove(
     "hidden"
   );
 
+
   welcomeTitle.classList.add(
     "hidden"
   );
+
+
+  /*
+    Hide the instructions once
+    the table result is displayed.
+  */
+
+  instructions.classList.add(
+    "hidden"
+  );
+
 
   form.classList.add(
     "hidden"
@@ -779,41 +863,59 @@ function showGuest(guest) {
 function showMultipleMatches(
   matches
 ) {
+
   matchOptions.innerHTML = "";
+
 
   matchHelp.textContent =
     "We found more than one guest with a similar name. Please select your name below:";
 
-  matches.forEach(guest => {
 
-    const button =
-      document.createElement(
-        "button"
+  matches.forEach(
+    guest => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "match-option";
+
+
+      button.textContent =
+        getDisplayName(
+          guest
+        );
+
+
+      button.addEventListener(
+        "click",
+        () => {
+          showGuest(
+            guest
+          );
+        }
       );
 
-    button.type = "button";
 
-    button.className =
-      "match-option";
+      matchOptions.appendChild(
+        button
+      );
 
-    button.textContent =
-      getDisplayName(guest);
+    }
+  );
 
-    button.addEventListener(
-      "click",
-      () => {
-        showGuest(guest);
-      }
-    );
-
-    matchOptions.appendChild(
-      button
-    );
-  });
 
   matchArea.classList.remove(
     "hidden"
   );
+
 
   result.classList.add(
     "hidden"
@@ -828,14 +930,18 @@ function showMultipleMatches(
 function showSearchError(
   message
 ) {
+
   matchOptions.innerHTML = "";
+
 
   matchHelp.textContent =
     message;
 
+
   matchArea.classList.remove(
     "hidden"
   );
+
 
   result.classList.add(
     "hidden"
@@ -844,7 +950,7 @@ function showSearchError(
 
 
 /* =========================================================
-   SEARCH
+   SEARCH FORM
    ========================================================= */
 
 form.addEventListener(
@@ -862,12 +968,13 @@ form.addEventListener(
     const firstInput =
       firstNameInput.value.trim();
 
+
     const lastInput =
       lastNameInput.value.trim();
 
 
     /*
-      Both names are required.
+      First and last name are required.
     */
 
     if (
@@ -885,6 +992,7 @@ form.addEventListener(
 
     const loaded =
       await loadGuests();
+
 
     if (!loaded) {
       return;
@@ -967,17 +1075,31 @@ resetBtn.addEventListener(
       "hidden"
     );
 
+
     matchArea.classList.add(
       "hidden"
     );
+
 
     form.classList.remove(
       "hidden"
     );
 
+
     welcomeTitle.classList.remove(
       "hidden"
     );
+
+
+    /*
+      Bring the instructions back
+      when searching for another guest.
+    */
+
+    instructions.classList.remove(
+      "hidden"
+    );
+
 
     matchOptions.innerHTML = "";
 
@@ -986,6 +1108,7 @@ resetBtn.addEventListener(
     form.reset();
 
     firstNameInput.focus();
+
   }
 );
 
