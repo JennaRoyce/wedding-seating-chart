@@ -9,6 +9,46 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
+    .instructions {
+      color: #5b6f8d;
+      font-size: 0.93rem;
+      line-height: 1.55;
+      text-align: left;
+      margin: 0 auto 1.4rem;
+      max-width: 500px;
+    }
+
+    .instructions p {
+      margin: 0 0 0.8rem;
+    }
+
+    .instructions strong {
+      color: #314c73;
+      font-weight: 600;
+    }
+
+    .example {
+      background: rgba(49, 76, 115, 0.07);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      margin-top: 0.8rem;
+      font-size: 0.88rem;
+    }
+
+    .example strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .field-label {
+      display: block;
+      text-align: left;
+      color: #314c73;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin: 0.65rem 0 0.3rem;
+    }
+
     .match-help {
       color: #5b6f8d;
       font-size: 0.95rem;
@@ -58,24 +98,57 @@
 
       <h1 class="welcome" id="welcomeTitle">Welcome</h1>
 
+      <div class="instructions">
+        <p>
+          Please enter your <strong>full name</strong> to find your table.
+          You must enter both your <strong>first and last name</strong>.
+        </p>
+
+        <p>
+          <strong>Nicknames are okay!</strong>
+          If you are listed under a formal name but usually go by a nickname,
+          you may enter your nickname instead.
+        </p>
+
+        <p>
+          <strong>If you have a suffix such as Jr., Sr., II, III, or IV,
+          please include it after your last name.</strong>
+        </p>
+
+        <div class="example">
+          <strong>Examples:</strong>
+          Robert Smith Jr.<br>
+          James Wilson III<br>
+          Katie Smith
+        </div>
+      </div>
+
       <p class="sheet-note" id="sheetStatus">
         Loading guest list...
       </p>
 
       <form id="searchForm">
 
+        <label class="field-label" for="firstName">
+          First Name
+        </label>
+
         <input
           id="firstName"
           type="text"
-          placeholder="First Name"
+          placeholder="Enter your first name"
           autocomplete="given-name"
           required
         >
 
+        <label class="field-label" for="lastName">
+          Last Name <span>(include suffix if applicable)</span>
+        </label>
+
         <input
           id="lastName"
           type="text"
-          placeholder="Last Name"
+          placeholder="Enter your last name + Jr., Sr., II, etc. if applicable"
           autocomplete="family-name"
           required
         >
