@@ -7,7 +7,49 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .match-help {
+      color: #5b6f8d;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .match-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .match-option {
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 1rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #314c73 0%, #243a5e 100%);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(36, 58, 94, 0.16);
+    }
+
+    .match-option:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .error-message {
+      color: #9a4d4d;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0.8rem 0;
+    }
+  </style>
 </head>
+
 <body>
 
 <div class="page">
@@ -15,19 +57,54 @@
     <div class="card">
 
       <h1 class="welcome" id="welcomeTitle">Welcome</h1>
-      <p class="sheet-note" id="sheetStatus">Loading guest list...</p>
+
+      <p class="sheet-note" id="sheetStatus">
+        Loading guest list...
+      </p>
 
       <form id="searchForm">
-        <input id="firstName" placeholder="First Name" required>
-        <input id="lastName" placeholder="Last Name (optional)">
-        <button type="submit">Find My Table</button>
+
+        <input
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+          autocomplete="given-name"
+          required
+        >
+
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+          autocomplete="family-name"
+          required
+        >
+
+        <button type="submit">
+          Find My Table
+        </button>
+
       </form>
 
+      <div id="matchArea" class="hidden">
+        <p class="match-help" id="matchHelp"></p>
+        <div id="matchOptions" class="match-options"></div>
+      </div>
+
       <div id="result" class="hidden">
+
         <h2 id="guestName"></h2>
+
         <div id="tableNumber"></div>
-        <p class="message">We are so glad you are here!</p>
-        <button class="secondary" id="resetBtn">Search Another Guest</button>
+
+        <p class="message">
+          We are so glad you are here!
+        </p>
+
+        <button class="secondary" id="resetBtn" type="button">
+          Search Another Guest
+        </button>
+
       </div>
 
     </div>
@@ -35,5 +112,6 @@
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
